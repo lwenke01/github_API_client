@@ -17,7 +17,7 @@ module.exports = (app) => {
     this.getRepos = function(){
       $http.get(repoRoute)
         .then((result)=>{
-          console.log(result.data);
+          console.log(result);
           this.repos = result.data;
 
         }, function (error){
