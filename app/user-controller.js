@@ -12,12 +12,12 @@ module.exports = (app) => {
     this.owner = [];
     this.starRepo = [];
     this.starUrl = [];
+    this.followers = {};
 
 
     this.getUser = function(){
       $http.get(userRoute)
         .then((result)=>{
-          // console.log(result);
           this.user = result.data;
 
         }, function (error){
@@ -28,9 +28,16 @@ module.exports = (app) => {
     this.getStarred = function(){
       $http.get(userRoute + '/starred')
       .then((result)=>{
-        // console.log(result.data);
         this.owner = result.data.name;
         this.starRepo = result.data.length;
+      });
+    };
+    this.getFollowers = function(){
+      $http.get(userRoute + '/followers')
+      .then((result)=>{
+        console.log(result.data);
+        this.followers = result.data;
+
       });
     };
 
