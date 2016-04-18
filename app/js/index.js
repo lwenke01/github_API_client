@@ -1,7 +1,10 @@
-'use strict';
-
 const angular = require('angular');
-const app = angular.module('GitApp', []);
+require('./user-controller.js');
+// require('./repo-controller.js');
 
-require('./arcade-controller.js')(app);
-require('./games-controller.js')(app);
+(function() {
+  angular.module('GitApp', [
+    'user',
+    'repo'
+  ]);
+})();

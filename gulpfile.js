@@ -1,29 +1,50 @@
-var gulp = require('gulp');
-var webpack = require('webpack-stream');
 
-var paths = [ 'client-server.js','build/*.js', 'build/*.html'];
+'use strict';
 
-gulp.task('build:html', function(){
-  gulp.src('build/*.html')
-  .pipe(gulp.dest('build/'));
+const gulp = require('gulp');
+const lint = require('gulp-eslint');
+const webpack = require('gulp-webpack');
+
+
+let paths = ['*.js', 'test/*.js', 'app/js/*.js', 'app/js/user/*.js', 'app/js/repos/*.js'];
+
+gulp.task('eslint', () => {
+  gulp.src(paths)
+  .pipe(lint())
+  .pipe(lint.format());
 });
 
-gulp.task('build:js', function(){
-  return gulp.src('app/index.js')
-.pipe(webpack({
-  output: {
-    filename: 'bundle.js'
-  }
-}))
-.pipe(gulp.dest('build/'));
+
+
+
+gulp.task('build:html', () => {
+  gulp.src(__dirname + '/app/index.html')
+  .pipe(gulp.dest(__dirname + '/app/build'));
 });
 
-gulp.task('watch:html', function (){
-  gulp.watch(paths.html, ['build:html']);
+gulp.task('build:css', () => {
+  gulp.src(__dirname + '/app/css/*.css')
+  .pipe(gulp.dest(__dirname + '/app/build'));
 });
 
-gulp.task('watch:js', function (){
-  gulp.watch(paths.js, ['build:js']);
+gulp.task('webpack', () => {
+  return gulp.src(__dirname + '/app/js/index.js')
+  .pipe(webpack({
+    watch: true,
+    module: {
+      loaders: [
+        { test: /\.css$/, loader: 'style!css'}
+      ]
+    },
+    output: {
+      filename: 'bundle.js'
+    }
+  }))
+  .pipe(gulp.dest(__dirname + '/app/build'));
 });
 
-gulp.task('default', ['build:js', 'build:html','watch:js', 'watch:html']);
+gulp.task('watch', () => {
+  gulp.watch(paths);
+});
+
+gulp.task('default', ['webpack', 'build:html', 'build:css']);

@@ -1,9 +1,9 @@
-'use strict';
-
-module.exports = {
-  entry: __dirname + '/app/index.js',
-  output: {
-    path: __dirname + '/build/',
-    filename: 'bundle.js'
-  }
-};
+// 'use strict';
+//
+// module.exports = {
+//   entry: __dirname + '/app/js/index.js',
+//   output: {
+//     path: __dirname + 'app/build/',
+//     filename: 'bundle.js'
+//   }
+// };
