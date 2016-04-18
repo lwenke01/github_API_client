@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>App</title>
+</head>
+<body ng-app="GitApp">
+ <section ng-controller="UserController as userctrl" ng-init="userctrl.getUser()">
+<h1> Welcome to {{userctrl.user.name}}'s' GitHub Portfolio <h1>
+<img class="my-avatar" src={{userctrl.user.avatar_url}}/>
+<section class="stats">
+  <h2>{{userctrl.user.login}}'s Quick Stats</h2>
+<ul>
+  <li> Total Repos: {{userctrl.user.public_repos}}</li>
+    <li ng-init="userctrl.getStarred()"> Starred Repos: {{userctrl.starRepo}}</li>
+  <li>Followers: {{userctrl.user.followers}}</li>
+    <li> Following: {{userctrl.user.following}}</li>
+  </ul>
+</section>
+</section>
+
+<section ng-controller="RepoController as repctrl" ng-init="repctrl.getRepos()">
+
+<h2>Public Repos</h2>
+<section ng-repeat="repo in repctrl.repos | orderBy: '-created_at'" ng-cloak>
+  <h3>{{repo.name}} <a href={{repo.html_url}}><em>link</em></a></h3>
+    <p></p>
+<ul>
+<li><strong>Created On: </strong>{{repo.created_at | date: format: short}}</li>
+<li><strong>Description:</strong> {{repo.description}}</li>
+<li><strong>Language: </strong>{{repo.language}}</li>
+<li><strong>Watchers: </strong>{{repo.watchers}}</li>
+<li><strong>Forks: </strong>{{repo.watchers}}</li>
+<li><strong>Contributors: </strong>
+  <ul>
+    <li ng-init="repctrl.getCollaborator()" ng-repeat="collaborator in repctrl.collaborators">{{repo.login}}</li>
+  </ul>
+
+
+</ul>
+
+</section>
+</section>
+
+</main>
+<script src="bundle.js" type="text/javascript"></script>
+
+</body>
+</html>

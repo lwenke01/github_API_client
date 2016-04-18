@@ -3,5 +3,5 @@
 const angular = require('angular');
 const app = angular.module('GitApp', []);
 
-require('./arcade-controller.js')(app);
-require('./games-controller.js')(app);
+require('./user-controller.js')(app);
+require('./repo-controller.js')(app);
