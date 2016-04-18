@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>App</title>
+</head>
+<body ng-app="GitApp">
+ <section ng-controller="UserController as userctrl" ng-init="userctrl.getUser()"ng-cloak>
+<h1> Welcome to {{userctrl.user.name}}'s' GitHub Portfolio <h1>
+
+<img class="my-avatar" src={{userctrl.user.avatar_url}}/>
+<section class="stats">
+  <h2>{{userctrl.user.login}}'s Quick Stats</h2>
+
+  <ul>
+  <li> Total Repos: {{userctrl.user.public_repos}}</li>
+    <li ng-init="userctrl.getStarred()"ng-cloak> Starred Repos: {{userctrl.starRepo}}</li>
+  <li>Followers: {{userctrl.user.followers}}</li>
+    <li> Following: {{userctrl.user.following}}</li>
+  </ul>
+</section>
+
+
+</section>
+
+<section class="repos" ng-controller="RepoController as repctrl"ng-init"repctrl.getRepos()" ng-cloak>
+<h2>Public Repos</h2>
+<ul ng-repeat="repo in repctrl.repos" ng-cloak>
+<li class="rep-info">Name: {{repctrl.repos.name}}</li>
+
+</ul>
+
+
+</section>
+
+</main>
+<script src="bundle.js" type="text/javascript"></script>
+
+</body>
+</html>
