@@ -2,8 +2,16 @@
 
 var gulp = require('gulp');
 var webpack = require('gulp-webpack');
+var lint = require('gulp-eslint');
 
-var paths = [ 'app/js/index.js', 'client-server.js','build/*.js', 'app/*.html'];
+var paths = [ '*.js', 'client-server.js','build/*.js', 'build/*.html','app/*.js'];
+
+
+gulp.task('eslint', function(){
+  gulp.src(paths)
+  .pipe(lint())
+  .pipe(lint.format());
+});
 
 gulp.task('build:html', function(){
   gulp.src('app/*.html')
@@ -11,21 +19,24 @@ gulp.task('build:html', function(){
 });
 
 gulp.task('build:js', function(){
-  return gulp.src('app/index.js')
+  return gulp.src(__dirname + '/app/index.js')
 .pipe(webpack({
+  watch: true,
+  module: {
+    loaders: [
+      { test: /\.css$/, loader: 'style!css'}
+    ]
+  },
   output: {
     filename: 'bundle.js'
   }
 }))
-.pipe(gulp.dest('build/'));
+.pipe(gulp.dest(__dirname + '/build/'));
 });
 
-gulp.task('watch:html', function (){
-  gulp.watch(paths.html, ['build:html']);
+gulp.task('watch',function ()  {
+  gulp.watch(paths);
 });
 
-gulp.task('watch:js', function (){
-  gulp.watch(paths.js, ['build:js']);
-});
 
-gulp.task('default', ['build:js', 'build:html','watch:js', 'watch:html']);
+gulp.task('default', ['eslint','build:js', 'build:html','watch']);
