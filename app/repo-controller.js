@@ -13,6 +13,7 @@ module.exports = (app) => {
 
     this.repos = [];
     this.starRepo = [];
+    this.starUrls = [];
     this.collaborator = [];
 
 
@@ -20,27 +21,28 @@ module.exports = (app) => {
       $http.get(repoRoute)
       .then((result)=>{
         this.repos = result.data;
-
       }, function (error){
         console.log(error);
       });
     };
 
     this.getStarred = function(){
-      $http.get(userRoute + '/starred')
+      $http.get(userRoute + '/' + 'starred')
       .then((result)=>{
-        this.owner = result.data.name;
+        console.log('starred ' + result.data);
+        this.starUrls = result.data;
         this.starRepo = result.data.length;
       });
     };
     this.getCollaborator = function(){
       $http.get(baseRepoRoute + '/' + this.repos.name + '/contributors')
       .then((result)=>{
-        console.log(result.data.login);
-        this.collaborator = result.data.login;
+        console.log(result.data);
+        this.collaborator = result.data;
       });
     };
 
   }
+
 
 };

@@ -51,6 +51,8 @@
 
 	__webpack_require__(3)(app);
 	__webpack_require__(4)(app);
+	__webpack_require__(5)(app);
+	__webpack_require__(6)(app);
 
 
 /***/ },
@@ -30851,6 +30853,7 @@
 
 	    this.repos = [];
 	    this.starRepo = [];
+	    this.starUrls = [];
 	    this.collaborator = [];
 
 
@@ -30858,24 +30861,85 @@
 	      $http.get(repoRoute)
 	      .then((result)=>{
 	        this.repos = result.data;
-
 	      }, function (error){
 	        console.log(error);
 	      });
 	    };
 
 	    this.getStarred = function(){
-	      $http.get(userRoute + '/starred')
+	      $http.get(userRoute + '/' + 'starred')
 	      .then((result)=>{
-	        this.owner = result.data.name;
+	        console.log('starred ' + result.data);
+	        this.starUrls = result.data;
 	        this.starRepo = result.data.length;
 	      });
 	    };
 	    this.getCollaborator = function(){
 	      $http.get(baseRepoRoute + '/' + this.repos.name + '/contributors')
 	      .then((result)=>{
-	        console.log(result.data.login);
-	        this.collaborator = result.data.login;
+	        console.log(result.data);
+	        this.collaborator = result.data;
+	      });
+	    };
+
+	  }
+
+
+	};
+
+
+/***/ },
+/* 5 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	module.exports = (app) => {
+
+	  app.controller('FollowerController', ['$http', FollowerController]);
+
+
+	  function FollowerController($http){
+	    console.log('marker 1');
+	    const userRoute = 'https://api.github.com/users/lwenke01';
+	    this.followers = {};
+
+	    this.getFollowers = function(){
+	      $http.get(userRoute + '/' + 'followers')
+	      .then((result)=>{
+	        console.log(result.data);
+	        this.followers = result.data;
+
+	      });
+	    };
+
+	  }
+
+	};
+
+
+/***/ },
+/* 6 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	module.exports = (app) => {
+
+	  app.controller('FollowingController', ['$http', FollowingController]);
+
+
+	  function FollowingController($http){
+	    console.log('marker 1');
+	    const userRoute = 'https://api.github.com/users/lwenke01';
+	    this.followings = {};
+
+	    this.getFollowing = function(){
+	      $http.get(userRoute + '/' + 'following')
+	      .then((result)=>{
+	        console.log(result.data);
+	        this.followings = result.data;
+
 	      });
 	    };
 
